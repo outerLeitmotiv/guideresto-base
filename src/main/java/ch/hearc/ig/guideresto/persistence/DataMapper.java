@@ -16,5 +16,6 @@ public interface DataMapper<T> {
     public T update(T obj) throws DataMapperException;
     public void delete(T obj) throws DataMapperException;
     public List<T> findAll() throws DataMapperException;
+    public Integer extractPrimaryKey(T obj) throws DataMapperException;
 
 }

@@ -15,7 +15,6 @@ public class City {
         this.cityName = cityName;
         this.restaurants = new HashSet<>();
     }
-    
     public String getZipCode() {
         return zipCode;
     }

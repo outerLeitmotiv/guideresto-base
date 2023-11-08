@@ -1,7 +1,29 @@
 
-e
-java:S2095"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(Ùåø
+u
+java:S1192A"XDefine a constant instead of duplicating this literal "Error closing statement" 4 times.(…±ÉÅ8–ú òº1
+Z
+java:S1163A"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8—ú òº1
+Z
+java:S1163Z"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8—ú òº1
+Z
+java:S1163s"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8—ú òº1
+[
+java:S1163"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8—ú òº1
+Q
+java:S1143A"4Remove this throw statement from this finally block.(…±ÉÅ8—ú òº1
+Q
+java:S1143Z"4Remove this throw statement from this finally block.(…±ÉÅ8—ú òº1
+Q
+java:S1143s"4Remove this throw statement from this finally block.(…±ÉÅ8—ú òº1
+R
+java:S1143"4Remove this throw statement from this finally block.(…±ÉÅ8—ú òº1
+l
+java:S2095"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(Ùåø8¨ú òº1
+V
+java:S5993"9Change the visibility of this constructor to "protected".(óÚó¶8©ú òº1
 O
-java:S5993"9Change the visibility of this constructor to "protected".(óÚó¶
+java:S3011˜",This accessibility update should be removed.(±®È»ùÿÿÿÿ8²ú òº1
 i
-java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(µÚ’M
+java:S1128"GRemove this unused import 'ch.hearc.ig.guideresto.business.Restaurant'.(ŒÌñøÿÿÿÿ8²ú òº1
+p
+java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(µÚ’M8²ú òº1
