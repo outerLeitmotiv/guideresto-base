@@ -5,7 +5,6 @@ import ch.hearc.ig.guideresto.services.EvaluationServiceImpl;
 import ch.hearc.ig.guideresto.services.RestaurantServiceImpl;
 import ch.hearc.ig.guideresto.services.RestaurantTypeServiceImpl;
 
-import java.io.PrintStream;
 import java.util.Scanner;
 
 public class Main {

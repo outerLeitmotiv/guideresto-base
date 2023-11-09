@@ -2,7 +2,9 @@ package ch.hearc.ig.guideresto.services;
 
 import ch.hearc.ig.guideresto.business.City;
 import ch.hearc.ig.guideresto.persistence.CityDataMapper;
+import ch.hearc.ig.guideresto.persistence.DataMapperException;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
@@ -14,9 +16,11 @@ import java.util.Set;
 public class CityServiceImpl implements CityService {
 
     private CityDataMapper cityDataMapper;
+    private TransactionService transactionService;
 
     public CityServiceImpl() {
         this.cityDataMapper = new CityDataMapper();
+        this.transactionService = new TransactionService();
     }
 
     @Override
@@ -24,23 +28,61 @@ public class CityServiceImpl implements CityService {
         return cityDataMapper.findById(id);
     }
 
-    @Override
     public void addCity(City city) {
-        cityDataMapper.insert(city);
+        try {
+            transactionService.startTransaction();
+            cityDataMapper.insert(city);
+            transactionService.commitTransaction();
+        } catch (SQLException e) {
+            try {
+                transactionService.rollbackTransaction();
+            } catch (Exception rollbackEx) {
+                throw new RuntimeException("Error rolling back transaction", rollbackEx);
+            }
+            throw new RuntimeException("Error adding a new city", e);
+        }
     }
 
     @Override
     public void updateCity(City city) {
-        cityDataMapper.update(city);
+        try {
+            transactionService.startTransaction();
+            cityDataMapper.update(city);
+            transactionService.commitTransaction();
+        } catch (SQLException e) {
+            try {
+                transactionService.rollbackTransaction();
+            } catch (Exception rollbackEx) {
+                throw new RuntimeException("Error rolling back transaction", rollbackEx);
+            }
+            throw new RuntimeException("Error updating city", e);
+        }
     }
 
     @Override
     public void deleteCity(City city) {
-        cityDataMapper.delete(city);
+        try {
+            transactionService.startTransaction();
+            cityDataMapper.delete(city);
+            transactionService.commitTransaction();
+        } catch (SQLException e) {
+            try {
+                transactionService.rollbackTransaction();
+            } catch (Exception rollbackEx) {
+                throw new RuntimeException("Error rolling back transaction", rollbackEx);
+            }
+            throw new RuntimeException("Error deleting city: " + city, e);
+        }
     }
 
     @Override
     public List<City> findAllCities() {
-        return cityDataMapper.findAll();
+        try {
+            return cityDataMapper.findAll();
+        } catch (DataMapperException e) {
+            throw new RuntimeException("Error retrieving all cities", e);
+        }
     }
 }
+
+

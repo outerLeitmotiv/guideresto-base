@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Set;
 
 public interface RestaurantTypeService {
+    RestaurantType findRestaurantTypeById(Integer id);
+
     RestaurantType findById(Integer id);
     void addRestaurantType(RestaurantType restaurantType);
     void updateRestaurantType(RestaurantType restaurantType);

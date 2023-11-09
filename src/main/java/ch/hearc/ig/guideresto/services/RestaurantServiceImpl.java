@@ -6,6 +6,7 @@ import ch.hearc.ig.guideresto.business.RestaurantType;
 import ch.hearc.ig.guideresto.persistence.DataMapperException;
 import ch.hearc.ig.guideresto.persistence.RestaurantDataMapper;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -16,9 +17,11 @@ import java.util.List;
 public class RestaurantServiceImpl implements RestaurantService{
 
     private RestaurantDataMapper restaurantDataMapper;
+    private TransactionService transactionService;
 
     public RestaurantServiceImpl() {
         this.restaurantDataMapper = new RestaurantDataMapper();
+        this.transactionService = new TransactionService();
     }
 
   @Override
@@ -39,11 +42,17 @@ public class RestaurantServiceImpl implements RestaurantService{
         }
     }
 
-    @Override
     public void addRestaurant(Restaurant restaurant) {
         try {
+            transactionService.startTransaction();
             restaurantDataMapper.insert(restaurant);
-        } catch (DataMapperException e) {
+            transactionService.commitTransaction();
+        } catch (SQLException e) {
+            try {
+                transactionService.rollbackTransaction();
+            } catch (Exception rollbackEx) {
+                throw new RuntimeException("Error rolling back transaction", rollbackEx);
+            }
             throw new RuntimeException("Error adding a new restaurant", e);
         }
     }
@@ -51,8 +60,15 @@ public class RestaurantServiceImpl implements RestaurantService{
     @Override
     public void updateRestaurant(Restaurant restaurant) {
         try {
+            transactionService.startTransaction();
             restaurantDataMapper.update(restaurant);
-        } catch (DataMapperException e) {
+            transactionService.commitTransaction();
+        } catch (SQLException e) {
+            try {
+                transactionService.rollbackTransaction();
+            } catch (Exception rollbackEx) {
+                throw new RuntimeException("Error rolling back transaction", rollbackEx);
+            }
             throw new RuntimeException("Error updating restaurant", e);
         }
     }
@@ -60,8 +76,15 @@ public class RestaurantServiceImpl implements RestaurantService{
     @Override
     public void deleteRestaurant(Restaurant restaurant) {
         try {
+            transactionService.startTransaction();
             restaurantDataMapper.delete(restaurant);
-        } catch (DataMapperException e) {
+            transactionService.commitTransaction();
+        } catch (SQLException e) {
+            try {
+                transactionService.rollbackTransaction();
+            } catch (Exception rollbackEx) {
+                throw new RuntimeException("Error rolling back transaction", rollbackEx);
+            }
             throw new RuntimeException("Error deleting restaurant : " + restaurant, e);
         }
     }

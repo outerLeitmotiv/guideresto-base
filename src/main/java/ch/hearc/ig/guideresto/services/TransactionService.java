@@ -5,34 +5,29 @@ import ch.hearc.ig.guideresto.persistence.OracleDBConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-/**
- * @author Olivier
- * <p>
- * GitHub link : <a href="https://github.com/outerLeitmotiv">...</a>
- */
 public class TransactionService {
 
-    private Connection connection;
-
-    public void DatabaseService() {
-        this.connection = OracleDBConnection.getInstance();
+    // This will use the shared connection from OracleDBConnection
+    public void startTransaction() throws SQLException {
+        Connection connection = OracleDBConnection.getInstance();
+        if (!connection.isClosed()) {
+            connection.setAutoCommit(false);
+        }
     }
 
     public void commitTransaction() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
+        Connection connection = OracleDBConnection.getInstance();
+        if (!connection.isClosed()) {
             connection.commit();
+            connection.setAutoCommit(true);
         }
     }
 
     public void rollbackTransaction() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
+        Connection connection = OracleDBConnection.getInstance();
+        if (!connection.isClosed()) {
             connection.rollback();
-        }
-    }
-
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
+            connection.setAutoCommit(true);
         }
     }
 }

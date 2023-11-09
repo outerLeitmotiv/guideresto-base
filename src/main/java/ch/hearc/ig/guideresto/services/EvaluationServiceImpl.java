@@ -6,6 +6,7 @@ import ch.hearc.ig.guideresto.business.Restaurant;
 import ch.hearc.ig.guideresto.persistence.BasicEvaluationDataMapper;
 import ch.hearc.ig.guideresto.persistence.CompleteEvaluationDataMapper;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 /**
@@ -17,13 +18,41 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     private BasicEvaluationDataMapper basicEvaluationDataMapper;
     private CompleteEvaluationDataMapper completeEvaluationDataMapper;
+    private TransactionService transactionService;
+
+    public EvaluationServiceImpl() {
+        this.basicEvaluationDataMapper = new BasicEvaluationDataMapper();
+        this.completeEvaluationDataMapper = new CompleteEvaluationDataMapper();
+        this.transactionService = new TransactionService();
+    }
     @Override
     public void addBasicEvaluation(Restaurant restaurant, boolean like, String ipAddress) {
-        basicEvaluationDataMapper.insert(new BasicEvaluation(null, LocalDate.now(), restaurant, like, ipAddress));
+        try {
+            transactionService.startTransaction();
+            basicEvaluationDataMapper.insert(new BasicEvaluation(null, LocalDate.now(), restaurant, like, ipAddress));
+            transactionService.commitTransaction();
+        } catch (SQLException e) {
+            try {
+                transactionService.rollbackTransaction();
+            } catch (SQLException rollbackEx) {
+                throw new RuntimeException("Error rolling back transaction", rollbackEx);
+            }
+            throw new RuntimeException("Error adding a new basic evaluation", e);
+        }
     }
-
     @Override
     public void addCompleteEvaluation(CompleteEvaluation evaluation) {
-        completeEvaluationDataMapper.insert(evaluation);
+        try {
+            transactionService.startTransaction(); // Start the transaction
+            completeEvaluationDataMapper.insert(evaluation);
+            transactionService.commitTransaction(); // Commit if successful
+        } catch (SQLException e) {
+            try {
+                transactionService.rollbackTransaction(); // Roll back on error
+            } catch (SQLException rollbackEx) {
+                throw new RuntimeException("Error rolling back transaction", rollbackEx);
+            }
+            throw new RuntimeException("Error adding a new complete evaluation", e);
+        }
     }
 }
