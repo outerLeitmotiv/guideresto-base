@@ -339,7 +339,7 @@ public class CLI {
     restaurant.setWebsite(readString());
     println("Nouveau type de restaurant : ");
 
-    Set<RestaurantType> restaurantTypes = (Set<RestaurantType>) restaurantTypeService.findById(restaurant.getId());
+    Set<RestaurantType> restaurantTypes = new HashSet<>(restaurantTypeService.findAllRestaurantTypes());
 
     RestaurantType newType = pickRestaurantType(restaurantTypes);
     if (newType != restaurant.getType()) {
@@ -357,7 +357,8 @@ public class CLI {
     println("Nouvelle rue : ");
     restaurant.getAddress().setStreet(readString());
 
-    Set<City> cities = (Set<City>) cityService.findAllCities();
+    List<City> cityList = cityService.findAllCities();
+    Set<City> cities = new HashSet<>(cityList);
 
     City newCity = pickCity(cities);
     if (newCity.equals(restaurant.getAddress().getCity())) {
