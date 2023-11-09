@@ -1,11 +1,5 @@
 package ch.hearc.ig.guideresto.application;
-
-import ch.hearc.ig.guideresto.persistence.FakeItems;
-import ch.hearc.ig.guideresto.persistence.OracleDBConnection;
 import ch.hearc.ig.guideresto.presentation.CLI;
-
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
@@ -18,3 +12,10 @@ public class Main {
     cli.start();
   }
 }
+
+
+
+
+
+
+

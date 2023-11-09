@@ -1,13 +1,9 @@
 package ch.hearc.ig.guideresto.persistence;
 
 import ch.hearc.ig.guideresto.business.RestaurantType;
-
-import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RestaurantTypeDataMapper extends AbstractDataMapper<RestaurantType> {
 
@@ -28,7 +24,7 @@ public class RestaurantTypeDataMapper extends AbstractDataMapper<RestaurantType>
 
     @Override
     protected String getPrimaryKeyColumnName() {
-        return "ID";
+        return "NUMERO";
     }
 
     @Override
@@ -43,6 +39,7 @@ public class RestaurantTypeDataMapper extends AbstractDataMapper<RestaurantType>
         statement.setString(2, obj.getDescription());
         statement.setInt(3, extractPrimaryKey(obj));
     }
+
     @Override
     protected String generateInsertStatement() {
         return "(LABEL, DESCRIPTION) VALUES (?, ?)";
@@ -50,6 +47,11 @@ public class RestaurantTypeDataMapper extends AbstractDataMapper<RestaurantType>
 
     @Override
     protected String generateUpdateStatement() {
-        return "SET LABEL = ?, DESCRIPTION = ? WHERE ID = ?";
+        return "LABEL = ?, DESCRIPTION = ?";
+    }
+
+    @Override
+    protected String getNameColumnName() {
+        return "LABEL";
     }
 }

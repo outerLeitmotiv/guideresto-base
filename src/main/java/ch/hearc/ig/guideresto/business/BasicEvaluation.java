@@ -17,5 +17,7 @@ public class BasicEvaluation extends Evaluation {
   public Boolean isLikeRestaurant() {
     return likeRestaurant;
   }
-
+  public String getIpAddress() {
+    return ipAddress;
+  }
 }

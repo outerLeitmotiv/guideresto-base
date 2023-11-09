@@ -66,4 +66,9 @@ public class LocalisationDataMapper extends AbstractDataMapper<Localisation> {
     protected String generateUpdateStatement() {
         return "SET STREET = ?, CITY_ID = ? WHERE ID = ?";
     }
+
+    @Override
+    protected String getNameColumnName() {
+        return null;
+    }
 }

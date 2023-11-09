@@ -19,6 +19,13 @@ public class City {
         return zipCode;
     }
 
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
     public String getCityName() {
         return cityName;
     }

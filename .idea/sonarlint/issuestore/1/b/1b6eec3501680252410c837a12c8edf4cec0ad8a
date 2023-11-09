@@ -1,29 +1,31 @@
 
 u
-java:S1192A"XDefine a constant instead of duplicating this literal "Error closing statement" 4 times.(…±ÉÅ8–ú òº1
-Z
-java:S1163A"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8—ú òº1
-Z
-java:S1163Z"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8—ú òº1
-Z
-java:S1163s"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8—ú òº1
-[
-java:S1163"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8—ú òº1
-Q
-java:S1143A"4Remove this throw statement from this finally block.(…±ÉÅ8—ú òº1
-Q
-java:S1143Z"4Remove this throw statement from this finally block.(…±ÉÅ8—ú òº1
-Q
-java:S1143s"4Remove this throw statement from this finally block.(…±ÉÅ8—ú òº1
-R
-java:S1143"4Remove this throw statement from this finally block.(…±ÉÅ8—ú òº1
+java:S1192m"XDefine a constant instead of duplicating this literal "Error closing statement" 4 times.(…±ÉÅ8¿ú¨¢»1
+e
+java:S1192"HDefine a constant instead of duplicating this literal " WHERE " 4 times.(ˆç’ú8¿ú¨¢»1
 l
-java:S2095"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(Ùåø8¨ú òº1
-V
-java:S5993"9Change the visibility of this constructor to "protected".(óÚó¶8©ú òº1
+java:S1192"ODefine a constant instead of duplicating this literal "SELECT * FROM " 3 times.(ˆç’ú8¿ú¨¢»1
+Z
+java:S1163m"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8Àú¨¢»1
+[
+java:S1163“"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8Àú¨¢»1
+[
+java:S1163­"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8Àú¨¢»1
+[
+java:S1163È"=Refactor this code to not throw exceptions in finally blocks.(…±ÉÅ8Àú¨¢»1
+Q
+java:S1143m"4Remove this throw statement from this finally block.(…±ÉÅ8Àú¨¢»1
+R
+java:S1143“"4Remove this throw statement from this finally block.(…±ÉÅ8Àú¨¢»1
+R
+java:S1143­"4Remove this throw statement from this finally block.(…±ÉÅ8Àú¨¢»1
+R
+java:S1143È"4Remove this throw statement from this finally block.(…±ÉÅ8Àú¨¢»1
+l
+java:S2095I"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(Ùåø8äú¨¢»1
 O
-java:S3011˜",This accessibility update should be removed.(±®È»ùÿÿÿÿ8²ú òº1
+java:S3011Ò",This accessibility update should be removed.(±®È»ùÿÿÿÿ8›¥©¢»1
 i
-java:S1128"GRemove this unused import 'ch.hearc.ig.guideresto.business.Restaurant'.(ŒÌñøÿÿÿÿ8²ú òº1
+java:S1128"GRemove this unused import 'ch.hearc.ig.guideresto.business.Restaurant'.(ŒÌñøÿÿÿÿ8ÓÍ•¤»1
 p
-java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(µÚ’M8²ú òº1
+java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(µÚ’M8É ¼¢»1

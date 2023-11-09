@@ -35,11 +35,18 @@ public class CityDataMapper extends AbstractDataMapper<City> {
         statement.setString(2, obj.getCityName());
         statement.setInt(3, extractPrimaryKey(obj));
     }
-        protected String generateInsertStatement() {
+    @Override
+    protected String generateInsertStatement() {
         return "(CODE_POSTAL, NOM_VILLE) VALUES (?, ?)";
     }
+
+    @Override
     protected String generateUpdateStatement() {
-        return "SET CODE_POSTAL = ?, NOM_VILLE = ? WHERE NUMERO = ?";
+        return "CODE_POSTAL = ?, NOM_VILLE = ?";
+    }
+    @Override
+    protected String getNameColumnName() {
+        return "NOM_VILLE";
     }
 }
 

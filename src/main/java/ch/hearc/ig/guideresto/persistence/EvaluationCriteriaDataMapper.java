@@ -10,22 +10,22 @@ public class EvaluationCriteriaDataMapper extends AbstractDataMapper<EvaluationC
 
     @Override
     protected EvaluationCriteria mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        Integer id = resultSet.getInt("ID");
+        Integer id = resultSet.getInt("NUMERO"); // Changed from "ID" to "NUMERO"
         return new EvaluationCriteria(
                 id,
-                resultSet.getString("NAME"),
+                resultSet.getString("NOM"), // Changed from "NAME" to "NOM" based on your script
                 resultSet.getString("DESCRIPTION")
         );
     }
 
     @Override
     protected String getTableName() {
-        return "CRITERES_EVALUATION";
+        return "CRITERES_EVALUATION"; // Matches the script
     }
 
     @Override
     protected String getPrimaryKeyColumnName() {
-        return "NUMERO";
+        return "NUMERO"; // Matches the script
     }
 
     @Override
@@ -43,11 +43,16 @@ public class EvaluationCriteriaDataMapper extends AbstractDataMapper<EvaluationC
 
     @Override
     protected String generateInsertStatement() {
-        return "(NAME, DESCRIPTION) VALUES (?, ?)";
+        return "(NOM, DESCRIPTION) VALUES (?, ?)";
     }
 
     @Override
     protected String generateUpdateStatement() {
-        return "SET NAME = ?, DESCRIPTION = ? WHERE ID = ?";
+        return "NOM = ?, DESCRIPTION = ?";
+    }
+
+    @Override
+    protected String getNameColumnName() {
+        return "NOM";
     }
 }

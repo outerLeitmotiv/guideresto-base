@@ -1,6 +1,4 @@
 package ch.hearc.ig.guideresto.persistence;
-
-import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -10,12 +8,12 @@ import java.util.List;
  */
 public interface DataMapper<T> {
 
-    public Connection connection = OracleDBConnection.getInstance();
+    public T findByName(String name) throws DataMapperException;
     public T findById(Integer id) throws DataMapperException;
     public void insert(T obj) throws DataMapperException;
     public T update(T obj) throws DataMapperException;
     public void delete(T obj) throws DataMapperException;
     public List<T> findAll() throws DataMapperException;
-    public Integer extractPrimaryKey(T obj) throws DataMapperException;
+    public Integer extractPrimaryKey(Object obj) throws DataMapperException;
 
 }

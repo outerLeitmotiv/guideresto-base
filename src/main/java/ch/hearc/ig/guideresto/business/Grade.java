@@ -21,4 +21,7 @@ public class Grade {
     public EvaluationCriteria getCriteria() {
         return criteria;
     }
+    public CompleteEvaluation getEvaluation() {
+        return evaluation;
+    }
 }
