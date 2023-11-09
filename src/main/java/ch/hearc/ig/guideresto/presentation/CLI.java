@@ -161,7 +161,7 @@ public class CLI {
       println("Veuillez entrer le nom de la nouvelle ville : ");
       String cityName = readString();
       City city = new City(1, zipCode, cityName);
-      cityService.findAllCities().add(city);
+      cityService.addCity(city);
       return city;
     }
 
@@ -218,11 +218,16 @@ public class CLI {
     // La sélection d'un type est obligatoire, donc l'opération se répètera tant qu'aucun type n'est sélectionné.
     Set<RestaurantType> restaurantTypes = new HashSet<>(restaurantTypeService.findAllRestaurantTypes());
     restaurantType = pickRestaurantType(restaurantTypes);
-
+    System.out.println("Adding restaurant to DB...");
     Restaurant restaurant = new Restaurant(null, name, description, website, street, city,
         restaurantType);
-    restaurantService.addRestaurant(restaurant);
-
+    try {
+      restaurantService.addRestaurant(restaurant);
+      System.out.println("Restaurant added to DB");
+    } catch (Exception e) {
+      System.out.println("Error adding restaurant to DB");
+      e.printStackTrace();
+    }
     showRestaurant(restaurant);
   }
 
@@ -313,7 +318,16 @@ public class CLI {
   }
 
   private void addBasicEvaluation(Restaurant restaurant, Boolean like) {
-    BasicEvaluation eval = new BasicEvaluation(null, LocalDate.now(), restaurant, like, getIpAddress());
+    String ipAddress = getIpAddress();
+    System.out.println("Adding evaluation to DB...");
+    BasicEvaluation eval = new BasicEvaluation(null, LocalDate.now(), restaurant, like, ipAddress);
+    try {
+      evaluationService.addBasicEvaluation(eval);
+      System.out.println("Evaluation added to DB");
+    } catch (Exception e) {
+      System.out.println("Error adding evaluation to DB");
+      e.printStackTrace();
+    }
     restaurant.getEvaluations().add(eval);
     println("Votre vote a été pris en compte !");
   }
@@ -330,7 +344,7 @@ public class CLI {
 
   private void editRestaurant(Restaurant restaurant) {
     println("Edition d'un restaurant !");
-
+    System.out.println("Current restaurant details : "+restaurant.toString());
     println("Nouveau nom : ");
     restaurant.setName(readString());
     println("Nouvelle description : ");
@@ -347,7 +361,12 @@ public class CLI {
       newType.getRestaurants().add(restaurant);
       restaurant.setType(newType);
     }
-
+    try {
+      restaurantService.updateRestaurant(restaurant);
+    } catch (Exception e) {
+      System.out.println("Error updating restaurant");
+      e.printStackTrace();
+    }
     println("Merci, le restaurant a bien été modifié !");
   }
 

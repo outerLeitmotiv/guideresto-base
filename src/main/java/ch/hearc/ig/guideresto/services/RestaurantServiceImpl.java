@@ -27,6 +27,7 @@ public class RestaurantServiceImpl implements RestaurantService{
   @Override
     public List<Restaurant> findAll() {
         try {
+            System.out.println("Finding all restaurants...");
             return restaurantDataMapper.findAll();
         } catch (DataMapperException e) {
             throw new RuntimeException("Error retrieving all restaurants", e);
@@ -47,6 +48,7 @@ public class RestaurantServiceImpl implements RestaurantService{
             transactionService.startTransaction();
             restaurantDataMapper.insert(restaurant);
             transactionService.commitTransaction();
+            System.out.println("Restaurant added successfully.");
         } catch (SQLException e) {
             try {
                 transactionService.rollbackTransaction();
@@ -63,6 +65,7 @@ public class RestaurantServiceImpl implements RestaurantService{
             transactionService.startTransaction();
             restaurantDataMapper.update(restaurant);
             transactionService.commitTransaction();
+            System.out.println("Restaurant updated successfully.");
         } catch (SQLException e) {
             try {
                 transactionService.rollbackTransaction();
@@ -79,6 +82,7 @@ public class RestaurantServiceImpl implements RestaurantService{
             transactionService.startTransaction();
             restaurantDataMapper.delete(restaurant);
             transactionService.commitTransaction();
+            System.out.println("Restaurant deleted successfully.");
         } catch (SQLException e) {
             try {
                 transactionService.rollbackTransaction();

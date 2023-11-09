@@ -33,6 +33,7 @@ public class CityServiceImpl implements CityService {
             transactionService.startTransaction();
             cityDataMapper.insert(city);
             transactionService.commitTransaction();
+            System.out.println("City added successfully.");
         } catch (SQLException e) {
             try {
                 transactionService.rollbackTransaction();
@@ -49,6 +50,7 @@ public class CityServiceImpl implements CityService {
             transactionService.startTransaction();
             cityDataMapper.update(city);
             transactionService.commitTransaction();
+            System.out.println("City updated successfully.");
         } catch (SQLException e) {
             try {
                 transactionService.rollbackTransaction();
@@ -65,6 +67,7 @@ public class CityServiceImpl implements CityService {
             transactionService.startTransaction();
             cityDataMapper.delete(city);
             transactionService.commitTransaction();
+            System.out.println("City deleted successfully.");
         } catch (SQLException e) {
             try {
                 transactionService.rollbackTransaction();
@@ -78,6 +81,7 @@ public class CityServiceImpl implements CityService {
     @Override
     public List<City> findAllCities() {
         try {
+            System.out.println("Retrieving all cities...");
             return cityDataMapper.findAll();
         } catch (DataMapperException e) {
             throw new RuntimeException("Error retrieving all cities", e);

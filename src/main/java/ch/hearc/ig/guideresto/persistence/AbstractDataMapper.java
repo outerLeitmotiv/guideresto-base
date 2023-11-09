@@ -111,7 +111,7 @@ public abstract class AbstractDataMapper<T> implements DataMapper<T> {
             }
         }
     }
-    @Override
+
     public T update(T obj) throws DataMapperException {
         PreparedStatement statement = null;
         try {
@@ -125,10 +125,12 @@ public abstract class AbstractDataMapper<T> implements DataMapper<T> {
                 throw new DataMapperException("Entity with ID " + id + " not found");
             }
 
+            // The full SQL update statement including the WHERE clause
             String updateStatement = "UPDATE " + getTableName() + " SET " + generateUpdateStatement() + " WHERE " + getPrimaryKeyColumnName() + " = ?";
             statement = connection.prepareStatement(updateStatement);
 
             setUpdateParameters(obj, statement);
+            // Set the primary key at the last parameter index
             statement.setInt(statement.getParameterMetaData().getParameterCount(), id);
 
             statement.executeUpdate();
@@ -149,6 +151,7 @@ public abstract class AbstractDataMapper<T> implements DataMapper<T> {
             }
         }
     }
+
 
 
     @Override

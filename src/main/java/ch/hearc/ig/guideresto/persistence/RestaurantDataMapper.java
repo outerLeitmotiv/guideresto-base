@@ -42,25 +42,28 @@ public class RestaurantDataMapper extends AbstractDataMapper<Restaurant> {
         statement.setString(1, obj.getName());
         statement.setString(2, obj.getDescription());
         statement.setString(3, obj.getWebsite());
-        statement.setString(4, obj.getStreet());
+        statement.setString(4, obj.getAddress().getStreet());
         Integer cityId = extractPrimaryKey(obj.getAddress().getCity());
         Integer typeId = extractPrimaryKey(obj.getType());
-        statement.setInt(5, cityId);
-        statement.setInt(6, typeId);
+        statement.setInt(5, typeId);
+        statement.setInt(6, cityId);
     }
+
 
     @Override
     protected void setUpdateParameters(Restaurant obj, PreparedStatement statement) throws SQLException {
         statement.setString(1, obj.getName());
         statement.setString(2, obj.getDescription());
         statement.setString(3, obj.getWebsite());
-        statement.setString(4, obj.getStreet());
-        Integer cityId = extractPrimaryKey(obj.getAddress().getCity());
+        statement.setString(4, obj.getAddress().getStreet());
         Integer typeId = extractPrimaryKey(obj.getType());
-        statement.setInt(5, cityId);
-        statement.setInt(6, typeId);
-        statement.setInt(7, extractPrimaryKey(obj));
+        Integer cityId = extractPrimaryKey(obj.getAddress().getCity());
+        statement.setInt(5, typeId);
+        statement.setInt(6, cityId);
+        statement.setInt(7, obj.getId());
     }
+
+
 
     @Override
     protected String getPrimaryKeyColumnName() {
@@ -69,13 +72,14 @@ public class RestaurantDataMapper extends AbstractDataMapper<Restaurant> {
 
     @Override
     protected String generateInsertStatement() {
-        return "(NAME, DESCRIPTION, WEBSITE, STREET, CITY_ID, TYPE_ID) VALUES (?, ?, ?, ?, ?, ?)";
+        return "(NOM, DESCRIPTION, SITE_WEB, ADRESSE, FK_TYPE, FK_VILL) VALUES (?, ?, ?, ?, ?, ?)";
     }
 
     @Override
     protected String generateUpdateStatement() {
-        return "NAME = ?, DESCRIPTION = ?, WEBSITE = ?, STREET = ?, CITY_ID = ?, TYPE_ID = ?";
+        return "NOM = ?, DESCRIPTION = ?, SITE_WEB = ?, ADRESSE = ?, FK_TYPE = ?, FK_VILL = ?";
     }
+
 
     @Override
     protected String getNameColumnName() {

@@ -38,7 +38,6 @@ public class BasicEvaluationDataMapper extends AbstractDataMapper<BasicEvaluatio
         statement.setString(3, obj.getIpAddress());
         Integer restaurantId = extractPrimaryKey(obj.getRestaurant());
         statement.setInt(4, restaurantId);
-        statement.setInt(5, obj.getId());
     }
 
     @Override

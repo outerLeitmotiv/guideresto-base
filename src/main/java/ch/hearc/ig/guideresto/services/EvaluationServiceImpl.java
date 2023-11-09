@@ -2,6 +2,7 @@ package ch.hearc.ig.guideresto.services;
 
 import ch.hearc.ig.guideresto.business.BasicEvaluation;
 import ch.hearc.ig.guideresto.business.CompleteEvaluation;
+import ch.hearc.ig.guideresto.business.Evaluation;
 import ch.hearc.ig.guideresto.business.Restaurant;
 import ch.hearc.ig.guideresto.persistence.BasicEvaluationDataMapper;
 import ch.hearc.ig.guideresto.persistence.CompleteEvaluationDataMapper;
@@ -26,10 +27,10 @@ public class EvaluationServiceImpl implements EvaluationService {
         this.transactionService = new TransactionService();
     }
     @Override
-    public void addBasicEvaluation(Restaurant restaurant, boolean like, String ipAddress) {
+    public void addBasicEvaluation(Evaluation evaluation) {
         try {
             transactionService.startTransaction();
-            basicEvaluationDataMapper.insert(new BasicEvaluation(null, LocalDate.now(), restaurant, like, ipAddress));
+            basicEvaluationDataMapper.insert((BasicEvaluation) evaluation);
             transactionService.commitTransaction();
         } catch (SQLException e) {
             try {
