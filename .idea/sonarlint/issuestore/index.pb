@@ -69,3 +69,5 @@ Bsrc/main/java/ch/hearc/ig/guideresto/services/CityServiceImpl.java,0\3\03bdd4b
 Lsrc/main/java/ch/hearc/ig/guideresto/services/RestaurantTypeServiceImpl.java,f\4\f4a01932266a3327785f125718d8623a0bf3156e
 x
 Hsrc/main/java/ch/hearc/ig/guideresto/services/EvaluationServiceImpl.java,e\1\e14c5bef807f7faea364cea8e0b8c159d1dc5a4b
+u
+Esrc/main/java/ch/hearc/ig/guideresto/services/TransactionService.java,9\8\98fe1536710ce86e092f2c53a4c181284120ac6f

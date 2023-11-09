@@ -6,7 +6,6 @@ package ch.hearc.ig.guideresto.services;
  * GitHub link : https://github.com/outerLeitmotiv
  */
 
-import ch.hearc.ig.guideresto.business.BasicEvaluation;
 import ch.hearc.ig.guideresto.business.CompleteEvaluation;
 import ch.hearc.ig.guideresto.business.Restaurant;
 

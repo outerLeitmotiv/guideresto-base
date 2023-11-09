@@ -33,12 +33,12 @@ public class LocalisationDataMapper extends AbstractDataMapper<Localisation> {
         statement.setString(1, obj.getStreet());
         City city = obj.getCity();
 
-        CityDataMapper cityDataMapper = new CityDataMapper(); // Create an instance of CityDataMapper
-        Integer cityId = cityDataMapper.extractPrimaryKey(city);
+        CityDataMapper mapper = new CityDataMapper(); // Create an instance of CityDataMapper
+        Integer cityId = mapper.extractPrimaryKey(city);
 
         if (cityId == null) {
-            cityDataMapper.insert(city); // Insert the City if it doesn't already exist
-            cityId = cityDataMapper.extractPrimaryKey(city); // Retrieve the generated ID
+            mapper.insert(city); // Insert the City if it doesn't already exist
+            cityId = mapper.extractPrimaryKey(city); // Retrieve the generated ID
         }
 
         statement.setInt(2, cityId);
@@ -48,11 +48,11 @@ public class LocalisationDataMapper extends AbstractDataMapper<Localisation> {
     protected void setUpdateParameters(Localisation obj, PreparedStatement statement) throws SQLException {
         statement.setString(1, obj.getStreet());
         City city = obj.getCity();
-        CityDataMapper cityDataMapper = new CityDataMapper(); // Create an instance of CityDataMapper
-        Integer cityId = cityDataMapper.extractPrimaryKey(city);
+        CityDataMapper mapper = new CityDataMapper(); // Create an instance of CityDataMapper
+        Integer cityId = mapper.extractPrimaryKey(city);
         if (cityId == null) {
-            cityDataMapper.insert(city); // Insert the City if it doesn't already exist
-            cityId = cityDataMapper.extractPrimaryKey(city); // Retrieve the generated ID
+            mapper.insert(city); // Insert the City if it doesn't already exist
+            cityId = mapper.extractPrimaryKey(city); // Retrieve the generated ID
         }
         statement.setInt(2, cityId);
         statement.setInt(3, extractPrimaryKey(obj));

@@ -7,6 +7,7 @@ package ch.hearc.ig.guideresto.services;
  */
 
 import ch.hearc.ig.guideresto.business.Restaurant;
+import ch.hearc.ig.guideresto.business.RestaurantType;
 
 import java.util.List;
 
@@ -16,4 +17,7 @@ public interface RestaurantService {
     void addRestaurant(Restaurant restaurant);
     void updateRestaurant(Restaurant restaurant);
     void deleteRestaurant(Restaurant restaurant);
+    public Integer findByType(RestaurantType type);
+
+
 }

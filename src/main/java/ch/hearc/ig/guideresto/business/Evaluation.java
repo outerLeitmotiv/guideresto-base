@@ -8,7 +8,7 @@ public abstract class Evaluation {
   private LocalDate visitDate;
   private Restaurant restaurant;
 
-  public Evaluation(Integer id, LocalDate visitDate, Restaurant restaurant) {
+  protected Evaluation(Integer id, LocalDate visitDate, Restaurant restaurant) {
     this.id = id;
     this.visitDate = visitDate;
     this.restaurant = restaurant;

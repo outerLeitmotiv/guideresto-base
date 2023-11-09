@@ -2,6 +2,7 @@ package ch.hearc.ig.guideresto.services;
 
 
 import ch.hearc.ig.guideresto.business.Restaurant;
+import ch.hearc.ig.guideresto.business.RestaurantType;
 import ch.hearc.ig.guideresto.persistence.DataMapperException;
 import ch.hearc.ig.guideresto.persistence.RestaurantDataMapper;
 
@@ -58,6 +59,13 @@ public class RestaurantServiceImpl implements RestaurantService{
             restaurantDataMapper.delete(restaurant);
         } catch (DataMapperException e) {
             throw new RuntimeException("Error deleting restaurant : " + restaurant, e);
+        }
+    }
+    public Integer findByType(RestaurantType type) {
+        try {
+            return restaurantDataMapper.extractPrimaryKey(type);
+        } catch (DataMapperException e) {
+            throw new RuntimeException("Error finding restaurant with type ID: " + type, e);
         }
     }
 }
