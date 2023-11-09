@@ -76,4 +76,5 @@ public class RestaurantDataMapper extends AbstractDataMapper<Restaurant> {
     protected String getNameColumnName() {
         return "NOM";
     }
+
 }

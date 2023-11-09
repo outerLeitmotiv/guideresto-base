@@ -7,13 +7,12 @@ package ch.hearc.ig.guideresto.services;
  */
 
 import ch.hearc.ig.guideresto.business.Restaurant;
-import java.util.Set;
+
+import java.util.List;
 
 public interface RestaurantService {
-    Set<Restaurant> findAll();
-    Restaurant findByName(String name);
-    Set<Restaurant> findByCity(String cityName);
-    Set<Restaurant> findByType(String typeName);
+    List<Restaurant> findAll();
+    Restaurant findById(Integer id);
     void addRestaurant(Restaurant restaurant);
     void updateRestaurant(Restaurant restaurant);
     void deleteRestaurant(Restaurant restaurant);

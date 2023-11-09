@@ -1,12 +1,14 @@
 package ch.hearc.ig.guideresto.persistence;
 
 import ch.hearc.ig.guideresto.business.CompleteEvaluation;
+import ch.hearc.ig.guideresto.business.Grade;
 import ch.hearc.ig.guideresto.business.Restaurant;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Collection;
 
 public class CompleteEvaluationDataMapper extends AbstractDataMapper<CompleteEvaluation> {
     @Override
@@ -17,7 +19,7 @@ public class CompleteEvaluationDataMapper extends AbstractDataMapper<CompleteEva
         String username = resultSet.getString("NOM_UTILISATEUR");
         Restaurant restaurant = new RestaurantDataMapper().findById(resultSet.getInt("FK_REST"));
         CompleteEvaluation evaluation = new CompleteEvaluation(id, visitDate, restaurant, comment, username);
-        evaluation.getGrades().addAll(new GradeDataMapper().findById(evaluation.getId()));
+        evaluation.getGrades().addAll((Collection<? extends Grade>) new GradeDataMapper().findById(evaluation.getId()));
         return evaluation;
     }
 

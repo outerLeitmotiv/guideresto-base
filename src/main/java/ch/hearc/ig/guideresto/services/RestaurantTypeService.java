@@ -6,10 +6,15 @@ package ch.hearc.ig.guideresto.services;
  * GitHub link : https://github.com/outerLeitmotiv
  */
 import ch.hearc.ig.guideresto.business.RestaurantType;
+
+import java.util.List;
 import java.util.Set;
 
 public interface RestaurantTypeService {
-    RestaurantType findByLabel(String label);
+    RestaurantType findById(Integer id);
     void addRestaurantType(RestaurantType restaurantType);
-    Set<RestaurantType> findAll();
+    void updateRestaurantType(RestaurantType restaurantType);
+    void deleteRestaurantType(RestaurantType restaurantType);
+    List<RestaurantType> findAllRestaurantTypes();
 }
+

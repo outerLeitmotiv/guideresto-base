@@ -6,10 +6,13 @@ package ch.hearc.ig.guideresto.services;
  * GitHub link : https://github.com/outerLeitmotiv
  */
 import ch.hearc.ig.guideresto.business.City;
-import java.util.Set;
+
+import java.util.List;
 
 public interface CityService {
-    City findByZipCode(String zipCode);
+    City findById(Integer id);
     void addCity(City city);
-    Set<City> findAll();
+    void updateCity(City city);
+    void deleteCity(City city);
+    List<City> findAllCities();
 }
