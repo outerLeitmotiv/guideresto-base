@@ -9,17 +9,17 @@ public class RestaurantTypeDataMapper extends AbstractDataMapper<RestaurantType>
 
     @Override
     protected RestaurantType mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        Integer id = resultSet.getInt("ID");
+        Integer id = resultSet.getInt("NUMERO");
         return new RestaurantType(
                 id,
-                resultSet.getString("LABEL"),
+                resultSet.getString("LIBELLE"),
                 resultSet.getString("DESCRIPTION")
         );
     }
 
     @Override
     protected String getTableName() {
-        return "RESTAURANT_TYPES";
+        return "TYPES_GASTRONOMIQUES";
     }
 
     @Override

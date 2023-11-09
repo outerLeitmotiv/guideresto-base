@@ -10,22 +10,28 @@ import java.sql.SQLException;
 
 public class RestaurantDataMapper extends AbstractDataMapper<Restaurant> {
 
+    private  CityDataMapper cityDataMapper;
+    private  RestaurantTypeDataMapper restaurantTypeDataMapper;
+
+    public RestaurantDataMapper() {
+        cityDataMapper = new CityDataMapper();
+        restaurantTypeDataMapper = new RestaurantTypeDataMapper();
+    }
     @Override
     protected Restaurant mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-        Integer id = resultSet.getInt("ID");
-        String name = resultSet.getString("NAME");
+        Integer id = resultSet.getInt("NUMERO");
+        String name = resultSet.getString("NOM");
         String description = resultSet.getString("DESCRIPTION");
-        String website = resultSet.getString("WEBSITE");
-        String street = resultSet.getString("STREET");
-        Integer cityId = resultSet.getInt("CITY_ID");
-        Integer typeId = resultSet.getInt("TYPE_ID");
+        String website = resultSet.getString("SITE_WEB");
+        String address = resultSet.getString("ADRESSE");
+        Integer cityId = resultSet.getInt("FK_VILL");
+        Integer typeId = resultSet.getInt("FK_TYPE");
+        City city = cityDataMapper.findById(cityId);
+        RestaurantType type = restaurantTypeDataMapper.findById(typeId);
 
-        // Use find methods which use cache instead of creating a new DataMapper instance
-        City city = (cityId != null) ? new CityDataMapper().findById(cityId) : null;
-        RestaurantType type = (typeId != null) ? new RestaurantTypeDataMapper().findById(typeId) : null;
-
-        return new Restaurant(id, name, description, website, street, city, type);
+        return new Restaurant(id, name, description, website, address, city, type);
     }
+
 
     @Override
     protected String getTableName() {
@@ -45,7 +51,6 @@ public class RestaurantDataMapper extends AbstractDataMapper<Restaurant> {
 
     @Override
     protected void setUpdateParameters(Restaurant obj, PreparedStatement statement) throws SQLException {
-        // Similar to setInsertParameters, set all the properties first
         statement.setString(1, obj.getName());
         statement.setString(2, obj.getDescription());
         statement.setString(3, obj.getWebsite());

@@ -17,6 +17,10 @@ public class RestaurantServiceImpl implements RestaurantService{
 
     private RestaurantDataMapper restaurantDataMapper;
 
+    public RestaurantServiceImpl() {
+        this.restaurantDataMapper = new RestaurantDataMapper();
+    }
+
   @Override
     public List<Restaurant> findAll() {
         try {

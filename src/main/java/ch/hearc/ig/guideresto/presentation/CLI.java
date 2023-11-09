@@ -7,8 +7,6 @@ import ch.hearc.ig.guideresto.business.BasicEvaluation;
 import ch.hearc.ig.guideresto.business.City;
 import ch.hearc.ig.guideresto.business.CompleteEvaluation;
 import ch.hearc.ig.guideresto.business.Evaluation;
-import ch.hearc.ig.guideresto.business.EvaluationCriteria;
-import ch.hearc.ig.guideresto.business.Grade;
 import ch.hearc.ig.guideresto.business.Restaurant;
 import ch.hearc.ig.guideresto.business.RestaurantType;
 import ch.hearc.ig.guideresto.services.CityServiceImpl;
@@ -112,8 +110,8 @@ public class CLI {
     println("Liste des restaurants : ");
 
     List<Restaurant> restaurants = restaurantService.findAll();
-
-    Optional<Restaurant> maybeRestaurant = pickRestaurant((Set<Restaurant>) restaurants);
+    Set restaurantsSet = new HashSet<>(restaurants);
+    Optional<Restaurant> maybeRestaurant = pickRestaurant(restaurantsSet);
     // Si l'utilisateur a choisi un restaurant, on l'affiche, sinon on ne fait rien et l'application va réafficher le menu principal
     maybeRestaurant.ifPresent(this::showRestaurant);
   }
@@ -211,21 +209,19 @@ public class CLI {
     City city;
     do
     { // La sélection d'une ville est obligatoire, donc l'opération se répètera tant qu'aucune ville n'est sélectionnée.
-      Set<City> cities = (Set<City>) cityService.findAllCities();
+      Set<City> cities = new HashSet<>(cityService.findAllCities());
       city = pickCity(cities);
     } while (city == null);
 
     RestaurantType restaurantType;
 
     // La sélection d'un type est obligatoire, donc l'opération se répètera tant qu'aucun type n'est sélectionné.
-    Set<RestaurantType> restaurantTypes = (Set<RestaurantType>) restaurantTypeService.findAllRestaurantTypes();
+    Set<RestaurantType> restaurantTypes = new HashSet<>(restaurantTypeService.findAllRestaurantTypes());
     restaurantType = pickRestaurantType(restaurantTypes);
 
     Restaurant restaurant = new Restaurant(null, name, description, website, street, city,
         restaurantType);
-    city.getRestaurants().add(restaurant);
-    restaurant.getAddress().setCity(city);
-    restaurantService.findAll().add(restaurant);
+    restaurantService.addRestaurant(restaurant);
 
     showRestaurant(restaurant);
   }
@@ -377,9 +373,7 @@ public class CLI {
     println("Etes-vous sûr de vouloir supprimer ce restaurant ? (O/n)");
     String choice = readString();
     if ("o".equalsIgnoreCase(choice)) {
-      restaurant.getAddress().getCity().getRestaurants().remove(restaurant);
-      restaurant.getType().getRestaurants().remove(restaurant);
-      restaurantService.findAll().remove(restaurant);
+      restaurantService.deleteRestaurant(restaurant);
       println("Le restaurant a bien été supprimé !");
     }
   }

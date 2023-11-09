@@ -33,4 +33,8 @@ public class City {
     public Set<Restaurant> getRestaurants() {
         return restaurants;
     }
+
+    public int getId() {
+        return id;
+    }
 }
