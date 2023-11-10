@@ -1,8 +1,8 @@
 
-e
-java:S1192"HDefine a constant instead of duplicating this literal " WHERE " 4 times.(ˆç’ú8ÍÍÄ»1
 v
 java:S1192"XDefine a constant instead of duplicating this literal "Error closing statement" 3 times.(…±ÉÅ8¹Ù½Ä»1
+e
+java:S1192"HDefine a constant instead of duplicating this literal " WHERE " 4 times.(ˆç’ú8ÍÍÄ»1
 l
 java:S1192"ODefine a constant instead of duplicating this literal "SELECT * FROM " 3 times.(ˆç’ú8ÍÍÄ»1
 [
@@ -20,12 +20,12 @@ java:S1143á"4Remove this throw statement from this finally block.(…±ÉÅ8ÎÍÄ»1
 l
 java:S2095I"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(Ùåø8æÍÄ»1
 N
-java:S3011{",This accessibility update should be removed.(±®È»ùÿÿÿÿ8õÍÄ»1
+java:S3011{",This accessibility update should be removed.(±®È»ùÿÿÿÿ8ŞÊ¾Ä»1
 N
-java:S3011|",This accessibility bypass should be removed.(ã³´‘ûÿÿÿÿ8ÕÊ¾Ä»1
+java:S3011|",This accessibility bypass should be removed.(ã³´‘ûÿÿÿÿ8×ÊæÄ»1
 O
-java:S3011ì",This accessibility update should be removed.(±®È»ùÿÿÿÿ8ŞÊ¾Ä»1
+java:S3011ì",This accessibility update should be removed.(±®È»ùÿÿÿÿ8ÜÊæÄ»1
 i
-java:S1128"GRemove this unused import 'ch.hearc.ig.guideresto.business.Restaurant'.(ŒÌñøÿÿÿÿ8ŞÊ¾Ä»1
+java:S1128"GRemove this unused import 'ch.hearc.ig.guideresto.business.Restaurant'.(ŒÌñøÿÿÿÿ8¥ÖÚÄ»1
 p
-java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(µÚ’M8ŞÊ¾Ä»1
+java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(µÚ’M8¥ÖÚÄ»1

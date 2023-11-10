@@ -119,7 +119,7 @@ public abstract class AbstractDataMapper<T> implements DataMapper<T> {
 
     private void setPrimaryKey(T obj, Integer id) {
         try {
-            Field idField = obj.getClass().getDeclaredField("id"); // Assumes the primary key field is named 'id'
+            Field idField = obj.getClass().getDeclaredField("id");
             idField.setAccessible(true);
             idField.set(obj, id);
         } catch (NoSuchFieldException | IllegalAccessException e) {
