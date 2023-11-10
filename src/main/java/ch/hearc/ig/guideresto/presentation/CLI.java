@@ -3,16 +3,8 @@ package ch.hearc.ig.guideresto.presentation;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
-import ch.hearc.ig.guideresto.business.BasicEvaluation;
-import ch.hearc.ig.guideresto.business.City;
-import ch.hearc.ig.guideresto.business.CompleteEvaluation;
-import ch.hearc.ig.guideresto.business.Evaluation;
-import ch.hearc.ig.guideresto.business.Restaurant;
-import ch.hearc.ig.guideresto.business.RestaurantType;
-import ch.hearc.ig.guideresto.services.CityServiceImpl;
-import ch.hearc.ig.guideresto.services.EvaluationServiceImpl;
-import ch.hearc.ig.guideresto.services.RestaurantServiceImpl;
-import ch.hearc.ig.guideresto.services.RestaurantTypeServiceImpl;
+import ch.hearc.ig.guideresto.business.*;
+import ch.hearc.ig.guideresto.services.*;
 
 import java.io.PrintStream;
 import java.net.Inet4Address;
@@ -28,16 +20,20 @@ public class CLI {
     private final EvaluationServiceImpl evaluationService;
     private final RestaurantTypeServiceImpl restaurantTypeService;
     private final RestaurantServiceImpl restaurantService;
+    private final EvaluationCriteriaService evaluationCriteriaService;
 
 
   // Injection de dépendances
-  public CLI(Scanner scanner, PrintStream printStream, CityServiceImpl cityService, EvaluationServiceImpl evaluationService, RestaurantTypeServiceImpl restaurantTypeService, RestaurantServiceImpl restaurantService) {
+  public CLI(Scanner scanner, PrintStream printStream, CityServiceImpl cityService,
+             EvaluationServiceImpl evaluationService, RestaurantTypeServiceImpl restaurantTypeService,
+             RestaurantServiceImpl restaurantService, EvaluationCriteriaService evaluationCriteriaService) {
     this.scanner = scanner;
     this.printStream = printStream;
     this.cityService = cityService;
     this.evaluationService = evaluationService;
     this.restaurantTypeService = restaurantTypeService;
     this.restaurantService = restaurantService;
+    this.evaluationCriteriaService = evaluationCriteriaService;
   }
 
   public void start() {
@@ -184,11 +180,11 @@ public class CLI {
   }
 
   private void searchRestaurantByType() {
-    Set<RestaurantType> restaurantTypes = (Set<RestaurantType>) restaurantTypeService.findAllRestaurantTypes();
+    List<RestaurantType> restaurantTypesList = restaurantTypeService.findAllRestaurantTypes();
+    Set<RestaurantType> restaurantTypes = new HashSet<>(restaurantTypesList);
     RestaurantType chosenType = pickRestaurantType(restaurantTypes);
-
-    Set<Restaurant> restaurants = restaurantService.findAll()
-        .stream()
+    List<Restaurant> restaurantList = restaurantService.findAll();
+    Set<Restaurant> restaurants= restaurantList.stream()
         .filter(r -> r.getType().getLabel().equalsIgnoreCase(chosenType.getLabel()))
         .collect(toUnmodifiableSet());
 
@@ -300,7 +296,7 @@ public class CLI {
         addBasicEvaluation(restaurant, false);
         break;
       case 3:
-
+        evaluateRestaurant(restaurant);
         break;
       case 4:
         editRestaurant(restaurant);
@@ -339,8 +335,37 @@ public class CLI {
       throw new RuntimeException(ex);
     }
   }
+  private void evaluateRestaurant(Restaurant restaurant) {
+    println("Merci d'évaluer ce restaurant !");
+    println("Quel est votre nom d'utilisateur ? ");
+    String username = readString();
+    println("Quel commentaire aimeriez-vous publier ?");
+    String comment = readString();
 
+    // Create a new CompleteEvaluation object
+    CompleteEvaluation eval = new CompleteEvaluation(null, LocalDate.now(), restaurant, comment, username);
 
+    println("Veuillez svp donner une note entre 1 et 5 pour chacun de ces critères : ");
+
+    List<EvaluationCriteria> evaluationCriterias = evaluationCriteriaService.findAllEvaluationCriteria();
+
+    for (EvaluationCriteria criteria : evaluationCriterias) {
+      println(criteria.getName() + " : " + criteria.getDescription());
+      Integer note = readInt();
+      Grade grade = new Grade(null, note, eval, criteria);
+      eval.getGrades().add(grade);
+    }
+    System.out.println("Saving evaluation to DB...");
+    try {
+      evaluationService.addCompleteEvaluation(eval);
+      System.out.println("Evaluation saved to DB");
+    } catch (Exception e) {
+      System.out.println("Error saving evaluation to DB: " + e.getMessage());
+      e.printStackTrace();
+    }
+
+    println("Votre évaluation a bien été enregistrée, merci !");
+  }
 
   private void editRestaurant(Restaurant restaurant) {
     println("Edition d'un restaurant !");

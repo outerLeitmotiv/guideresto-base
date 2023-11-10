@@ -75,7 +75,6 @@ public abstract class AbstractDataMapper<T> implements DataMapper<T> {
                 );
                 statement.setInt(1, id);
                 ResultSet resultSet = statement.executeQuery();
-
                 if (resultSet.next()) {
                     T entity = mapResultSetToEntity(resultSet);
                     cache.put(id, entity);
@@ -91,27 +90,44 @@ public abstract class AbstractDataMapper<T> implements DataMapper<T> {
     @Override
     public void insert(T obj) throws DataMapperException {
         PreparedStatement statement = null;
+        ResultSet generatedKeys = null;
         try {
             statement = connection.prepareStatement(
-                    "INSERT INTO " + getTableName() + " " + generateInsertStatement()
-            );
+                    "INSERT INTO " + getTableName() + " " + generateInsertStatement(),
+                    new String[]{getPrimaryKeyColumnName()}); // Specify the column name of the generated key
             setInsertParameters(obj, statement);
             statement.executeUpdate();
+
+            generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                Integer generatedId = generatedKeys.getInt(1); // Retrieve the generated key
+                setPrimaryKey(obj, generatedId); // Update the Java object with the new ID
+                cache.put(generatedId, obj); // Update the cache
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DataMapperException("Error inserting entity");
         } finally {
+            if (generatedKeys != null) {
+                try { generatedKeys.close(); } catch (SQLException e) { e.printStackTrace(); }
+            }
             if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    throw new DataMapperException("Error closing statement");
-                }
+                try { statement.close(); } catch (SQLException e) { e.printStackTrace(); }
             }
         }
     }
 
+    private void setPrimaryKey(T obj, Integer id) {
+        try {
+            Field idField = obj.getClass().getDeclaredField("id"); // Assumes the primary key field is named 'id'
+            idField.setAccessible(true);
+            idField.set(obj, id);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public T update(T obj) throws DataMapperException {
         PreparedStatement statement = null;
         try {
@@ -119,23 +135,16 @@ public abstract class AbstractDataMapper<T> implements DataMapper<T> {
             if (id == null) {
                 throw new DataMapperException("Cannot update entity without primary key");
             }
-
             T existingObj = findById(id);
             if (existingObj == null) {
                 throw new DataMapperException("Entity with ID " + id + " not found");
             }
-
-            // The full SQL update statement including the WHERE clause
             String updateStatement = "UPDATE " + getTableName() + " SET " + generateUpdateStatement() + " WHERE " + getPrimaryKeyColumnName() + " = ?";
             statement = connection.prepareStatement(updateStatement);
-
             setUpdateParameters(obj, statement);
-            // Set the primary key at the last parameter index
             statement.setInt(statement.getParameterMetaData().getParameterCount(), id);
-
             statement.executeUpdate();
-            cache.put(id, obj); // Update the cache with the new object state
-
+            cache.put(id, obj);
             return obj;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -149,19 +158,26 @@ public abstract class AbstractDataMapper<T> implements DataMapper<T> {
                     throw new DataMapperException("Error closing statement");
                 }
             }
+            Integer id = extractPrimaryKey(obj);
+            cache.put(id, obj);
+            findAll();
         }
     }
 
-
-
     @Override
     public void delete(T obj) throws DataMapperException {
+        if (obj == null) {
+            throw new DataMapperException("Cannot delete a null object");
+        }
+        Integer id = extractPrimaryKey(obj);
+        if (id == null) {
+            throw new DataMapperException("Cannot delete an entity with a null id");
+        }
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(
                     "DELETE FROM " + getTableName() + " WHERE " + getPrimaryKeyColumnName() + " = ?"
             );
-            Integer id = extractPrimaryKey(obj);
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -177,18 +193,24 @@ public abstract class AbstractDataMapper<T> implements DataMapper<T> {
                 }
             }
         }
+        Integer idDeleted = extractPrimaryKey(obj);
+        cache.remove(idDeleted);
+        findAll();
     }
+
     @Override
     public List<T> findAll() throws DataMapperException {
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(
-                    "SELECT * FROM " + getTableName()
-            );
+            statement = connection.prepareStatement("SELECT * FROM " + getTableName());
             ResultSet resultSet = statement.executeQuery();
             List<T> entities = new ArrayList<>();
+            cache.clear();
             while (resultSet.next()) {
-                entities.add(mapResultSetToEntity(resultSet));
+                T entity = mapResultSetToEntity(resultSet);
+                entities.add(entity);
+                Integer id = extractPrimaryKey(entity);
+                cache.put(id, entity);
             }
             return entities;
         } catch (SQLException e) {
@@ -205,6 +227,7 @@ public abstract class AbstractDataMapper<T> implements DataMapper<T> {
             }
         }
     }
+
     protected abstract void setInsertParameters(T obj, PreparedStatement statement) throws SQLException;
     protected abstract void setUpdateParameters(T obj, PreparedStatement statement) throws SQLException;
     public Integer extractPrimaryKey(Object obj) {

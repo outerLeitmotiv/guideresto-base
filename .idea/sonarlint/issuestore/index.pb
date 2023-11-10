@@ -71,3 +71,9 @@ x
 Hsrc/main/java/ch/hearc/ig/guideresto/services/EvaluationServiceImpl.java,e\1\e14c5bef807f7faea364cea8e0b8c159d1dc5a4b
 u
 Esrc/main/java/ch/hearc/ig/guideresto/services/TransactionService.java,9\8\98fe1536710ce86e092f2c53a4c181284120ac6f
+|
+Lsrc/main/java/ch/hearc/ig/guideresto/services/EvaluationCriteriaService.java,8\4\8466f8af14c1f30471a59a1837097bc3b1610dcf
+
+Osrc/main/java/ch/hearc/ig/guideresto/services/EvaluationCriteriaServiceImp.java,1\d\1d203d928d24334d9f65af0aa82c7f3363390a67
+€
+Psrc/main/java/ch/hearc/ig/guideresto/services/EvaluationCriteriaServiceImpl.java,6\5\6529de9e6ec70c66ac7f04a6742ad242c0f9166a

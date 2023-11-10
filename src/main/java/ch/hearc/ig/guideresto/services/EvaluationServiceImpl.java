@@ -44,9 +44,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public void addCompleteEvaluation(CompleteEvaluation evaluation) {
         try {
-            transactionService.startTransaction(); // Start the transaction
+            transactionService.startTransaction();
             completeEvaluationDataMapper.insert(evaluation);
-            transactionService.commitTransaction(); // Commit if successful
+            transactionService.commitTransaction();
         } catch (SQLException e) {
             try {
                 transactionService.rollbackTransaction(); // Roll back on error
